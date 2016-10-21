@@ -35,12 +35,16 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 " Surround
 Plugin 'tpope/vim-surround'
+" Git Integration
+Plugin 'tpope/vim-fugitive'
 " Auto Complete
 Plugin 'Valloric/YouCompleteMe'
 " Better C++ Highlighting
 Plugin 'octol/vim-cpp-enhanced-highlight'
 " Better JS Highlighting
 Plugin 'pangloss/vim-javascript'
+" Git Diff
+Plugin 'airblade/vim-gitgutter'
 
 " End Plugin Definition
 call vundle#end()
@@ -117,6 +121,10 @@ let g:syntastic_cpp_compiler = 'clang++'
 " Use C++ 11
 let g:syntastic_cpp_compiler_options = ' -std=c++11'
 
+" GIT [GitGutter]
+" Disabled by Default
+let g:gitgutter_enabled = 0
+
 " =============== EDITOR MACROS =============== 
 " SETUP
 " SPACE LEADER
@@ -146,8 +154,13 @@ map <Leader>eu :e ~/Sync/Todo/upel.vim<CR>
 " Open a New Tab
 map <Leader>t :tabe<CR>
 
-" NERD Tree
+" NERD TREE
+" Show/Hide NERD Tree
 map <Leader>f :NERDTreeToggle<CR><C-l>
+
+" GIT
+" Show/Hide GitGutter
+map <Leader>g :GitGutterToggle<CR>:GitGutterLineHighlightsToggle<CR>
 
 " COMPILING/RUNNING
 " Run In Python 2
