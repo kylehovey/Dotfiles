@@ -1,12 +1,11 @@
 " Kyle Hovey's Vim Dotfile
 
 " ================ SYSTEM ================
+" THE BASICS
 " Make sure terminal is 256 colors
 set t_Co=256
-
 " Set the system clipboard
 set clipboard=unnamedplus,unnamed,autoselect
-
 " Enable Mouse Support
 set mouse=a
 
@@ -21,7 +20,6 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 
 " VUNDLE PLUGINS
-
 " Begin Plugin Definition
 call vundle#begin()
 
@@ -35,6 +33,10 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
 " Syntax Checking
 Plugin 'scrooloose/syntastic'
+" Surround
+Plugin 'tpope/vim-surround'
+" Auto Complete
+Plugin 'Valloric/YouCompleteMe'
 " Better C++ Highlighting
 Plugin 'octol/vim-cpp-enhanced-highlight'
 " Better JS Highlighting
@@ -49,13 +51,13 @@ filetype plugin indent on
 " Enable It
 syntax on
 
-" Dark Background
+" DARK BACKGROUND
 set background=dark
 
-" Color Scheme
+" COLOR SCHEME
 colorscheme solarized
 
-" Syntax Files
+" SYNTAX FILES
 " Handlebars Template Syntax
 au BufRead,BufNewFile *.handlebars,*.hbs set ft=html syntax=handlebars
 
@@ -96,6 +98,11 @@ set nofoldenable
 " Allow Folding At One Line
 set foldlevel=1
 
+" TABBING
+" Sane tabstop
+set tabstop=4
+set shiftwidth=4
+
 " DELETING
 " Make Backspace Act Normal
 set backspace=2		
@@ -123,9 +130,9 @@ map <Leader>w :w<CR>
 " Save As
 map <Leader>W :w<Space>	
 " Quit
-map <Leader>q <C-w>q
+map <Leader>q :q<CR>
 " Force Quit
-map <Leader>Q <C-w>q!<CR>
+map <Leader>Q :q!<CR>
 
 " FILE SHORTCUTS
 " Edit .vimrc
@@ -154,15 +161,15 @@ map <Leader>c :!g++ -std=c++11 ./*.cpp -o run<CR>
 " Run Compiled C++
 map <Leader>R :!./run<CR>
 " Generate cout from cmnt
-map <Leader>o 0/\/<CR>velcstd::cout << "<esc>$a\n";<esc>
+map <Leader>o 0/\/<CR>velcstd::cout << "<esc>$a\n";<esc>:nohl<CR><C-l>
 " Turn cout into cmnt
-map <Leader>O 0/std<CR>v5ec// <esc>$v3hx
+map <Leader>O 0/std<CR>v5ec// <esc>$v3hx:nohl<CR><C-l>
 
-" Searching/Highlighting
+" SEARCHING/HIGHLIGHTING
 " Clear Highlights and Redraw
 map <Leader>d :nohl<CR><C-l>
 
 " ============= CRYPTOGRAPHY SETUP ============= 
-" Main Crypto
+" MAIN CRYPTO
 " Use Strong-Ish Algorithm
 :setlocal cm=blowfish
