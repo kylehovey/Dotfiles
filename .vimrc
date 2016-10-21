@@ -11,16 +11,20 @@ set clipboard=unnamedplus,unnamed,autoselect
 set mouse=a
 
 " =========== PLUGIN MANAGER ============= 
+" VUNDLE SETUP
 " Be iMproved, Required
 set nocompatible
 " Required
 filetype off
-
 " Set the Runtime Path to Include Vundle and Initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+
+
+" VUNDLE PLUGINS
+
+" Begin Plugin Definition
 call vundle#begin()
 
-" Vundle Plugins
 " Vundle Plugin Manager
 Plugin 'VundleVim/Vundle.vim'
 " Airline Font Support
