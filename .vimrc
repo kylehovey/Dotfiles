@@ -160,7 +160,13 @@ map <Leader>f :NERDTreeToggle<CR><C-l>
 
 " GIT
 " Show/Hide GitGutter
-map <Leader>g :GitGutterToggle<CR>:GitGutterLineHighlightsToggle<CR>
+map <Leader>gg :GitGutterToggle<CR>:GitGutterLineHighlightsToggle<CR>
+" Stage Current File
+map <Leader>ga :Gwrite<CR>
+" Commit Changes
+map <Leader>gc :Gcommit -v<CR>
+" Push Changes
+map <Leader>gp :!git push origin master<CR>
 
 " COMPILING/RUNNING
 " Run In Python 2
