@@ -24,8 +24,6 @@ setopt AUTO_CD
 
 export PATH="/usr/local/opt/gnupg/libexec/gpgbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/opt/X11/bin:/usr/texbin:/usr/local/mongodb/bin"
 
-alias gay='git add -A'
-
 alias commit='git commit -m'
 
 alias gaster='git push origin master'
@@ -97,8 +95,6 @@ alias notebook="/anaconda/bin/jupyter_mac.command"
 alias mongodb="mongod --dbpath ~/data/db"
 
 alias gitos="git clone git@github.com:kylehovey/OS_Concurrency.git"
-
-alias tit="git"
 
 alias mullid="echo \"602359447330\" | pbcopy"
 
