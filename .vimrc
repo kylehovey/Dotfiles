@@ -1,4 +1,5 @@
 " Kyle Hovey's Vim Dotfile
+:set noemoji
 
 " ================ SYSTEM ================
 " THE BASICS
@@ -47,10 +48,12 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'yuttie/comfortable-motion.vim'
 " Vim LaTeX
 Plugin 'vim-latex/vim-latex'
+" Latex Preview
+Plugin 'xuhdev/vim-latex-live-preview'
 " Markdown Preview
 Plugin 'JamshedVesuna/vim-markdown-preview'
-" Collaberative editing in Vim
-Plugin 'FredKSchott/CoVim'
+" Indentation Highlighting
+Plugin 'Yggdroot/indentLine'
 
 " End Plugin Definition
 call vundle#end()
@@ -108,16 +111,25 @@ set nofoldenable
 " Allow Folding At One Line
 set foldlevel=1
 
-" TABBING
+" Indentation
 " Sane tabstop
 set tabstop=2
 set shiftwidth=2
-" Vertical indent level context
-:set listchars=tab:\|\ 
+" Indentation marker character
+let g:indentLine_char = '|'
+" Disable indent lines by default
+let g:indentLine_enabled = 0
+" Use spaces instead of tabs
+:set expandtab
 
 " DELETING
 " Make Backspace Act Normal
 set backspace=2		
+
+" SPLITTING
+" Open splits intutiively
+set splitbelow
+set splitright
 
 " HIGHLIGHTING
 " Highlight All Search Results
@@ -138,6 +150,10 @@ let g:syntastic_cpp_compiler_options = ' -std=c++11'
 " Disable Preview Window
 set completeopt-=preview
 
+" LaTeX
+" Set Preview As the Default LaTeX Viewer
+let g:livepreview_previewer = 'open -a Preview'
+
 " MACVIM
 " Enable Powerline
 if has("gui_running")
@@ -157,6 +173,9 @@ let g:gitgutter_enabled = 0
 let mapleader="\<Space>"
 " Use Semicolon for Command Mode
 " nnoremap ; :
+" Navigate up and down through wrapped lines naturally
+nnoremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+nnoremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " FILE I/O
 " Save
@@ -180,6 +199,25 @@ map <Leader>eu :e ~/Dropbox/Todo/upel.vim<CR>
 " Open a New Tab
 map <Leader>t :tabe<CR>
 
+" SPLIT CREATION
+" Enable splitting in each direction
+nnoremap <Leader>sh :sp<CR>
+nnoremap <Leader>sv :vsp<CR>
+
+" SPLIT MANAGEMENT
+" Navigate Up
+nnoremap <Leader>k <C-w>k
+" Navigate Down
+nnoremap <Leader>j <C-w>j
+" Navigate Left
+nnoremap <Leader>h <C-w>h
+" Navigate Right
+nnoremap <Leader>l <C-w>l
+
+" HIGHLIGHT MANAGEMENT
+" Turn off highlighting
+map <Leader>D :match none<CR>
+
 " NERD TREE
 " Show/Hide NERD Tree
 map <Leader>f :NERDTreeToggle<CR><C-l>
@@ -199,11 +237,8 @@ map <Leader>gp :!git push origin master<CR>
 map <Leader>p :w !python2.7<CR>
 " Run In Python 3
 map <Leader>P :w !python3<CR>
-" Start Node App
-map <Leader>N :!npm start<CR>
 " Compile C++
-"map <Leader>c :!g++ -std=c++11 ./*.cpp -o run<CR>
-map <Leader>c :!make<CR>
+map <Leader>c :make<CR>
 " Run Compiled C++
 map <Leader>R :!./run<CR>
 " Generate cout from comment
@@ -214,16 +249,28 @@ map <Leader>O 0/std<CR>v5ec// <esc>$v3hx:nohl<CR><C-l>
 map <Leader>C :r ~/.cpp<CR>kdd
 " Read in starter class code
 map <Leader>H :r ~/.h<CR>kdd
+" Bring up quickfix
+map <Leader>F :cope<CR>
+" Next fix
+map <Leader>n :cn<CR>
+" Previous fix
+map <Leader>N :cp<CR>
+" Grep for TODO statements
+map <Leader>T :vimgrep "TODO" ./* -r<CR>
 
 " SEARCHING/HIGHLIGHTING
 " Clear Highlights and Redraw
 map <Leader>d :nohl<CR><C-l>
 
 " VIEW CHANGING
-" View indent levels
-map <Leader>i :set list<CR>
-" Turn off indent level view
-map <Leader>I :set nolist<CR>
+" Toggle indent lines
+map <Leader>i :IndentLinesToggle<CR>
+
+" LaTeX
+map <Leader>lp :LLPStartPreview<CR>
+
+" Config
+map <Leader>r :so ~/.vimrc<CR>
 
 " ============= CRYPTOGRAPHY SETUP ============= 
 " MAIN CRYPTO
