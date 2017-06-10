@@ -1,4 +1,5 @@
 " Kyle Hovey's Vim Dotfile
+" Disable weird spacing with emoji's
 :set noemoji
 
 " ================ SYSTEM ================
@@ -28,8 +29,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 " Airline Font Support
 Plugin 'vim-airline/vim-airline'
-" Smooth Solarized Support
-Plugin 'altercation/vim-colors-solarized'
 " NERD Tree File Browser
 Plugin 'scrooloose/nerdtree'
 " Syntax Checking
@@ -60,7 +59,7 @@ call vundle#end()
 filetype plugin indent on
 set autoindent
 
-" =========== SYNTAX HIGHLIGHTING ============= 
+" =========== SYNTAX HIGHLIGHTING =============
 " THE BASICS
 " Enable It
 syntax on
@@ -84,6 +83,9 @@ set laststatus=2
 set showtabline=1
 " Hide the Default Mode Text
 set noshowmode
+
+" PYTHON DOUBLE SPACE TAB
+autocmd Filetype python setlocal expandtab tabstop=2 shiftwidth=2
 
 " =============== VIEW SETTINGS =============== 
 " THE BASICS
@@ -117,10 +119,10 @@ set tabstop=2
 set shiftwidth=2
 " Indentation marker character
 let g:indentLine_char = '|'
-" Disable indent lines by default
-let g:indentLine_enabled = 0
+" Enable indent lines by default
+let g:indentLine_enabled = 1
 " Use spaces instead of tabs
-:set expandtab
+set expandtab
 
 " DELETING
 " Make Backspace Act Normal

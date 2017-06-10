@@ -7,7 +7,7 @@ export ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="agnoster"
 
-plugins=(git, zsh-syntax-highlighting)
+plugins=(git, zsh-syntax-highlighting, extract, sudo)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -22,7 +22,9 @@ eval "$(fasd --init)"
 
 setopt AUTO_CD
 
-export PATH="/usr/local/opt/gnupg/libexec/gpgbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/opt/X11/bin:/usr/texbin:/usr/local/mongodb/bin"
+export PATH="/usr/local/opt:/usr/local/opt/gnupg/libexec/gpgbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/opt/X11/bin:/usr/texbin:/usr/local/mongodb/bin"
+
+alias fix="brew services restart kwm"
 
 alias commit='git commit -m'
 
