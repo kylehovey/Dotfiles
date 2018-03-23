@@ -11,7 +11,7 @@ set clipboard=unnamedplus,unnamed,autoselect
 " Enable Mouse Support
 set mouse=a
 
-" =========== PLUGIN MANAGER ============= 
+" =========== PLUGIN MANAGER =============
 " VUNDLE SETUP
 " Be iMproved, Required
 set nocompatible
@@ -35,12 +35,16 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 " Surround
 Plugin 'tpope/vim-surround'
+" Repeat with .
+Plugin 'tpope/vim-repeat'
 " Git Integration
 Plugin 'tpope/vim-fugitive'
 " Auto Complete
 Plugin 'Valloric/YouCompleteMe'
 " Language Support
 Plugin 'sheerun/vim-polyglot'
+" Better JS Support
+Plugin 'pangloss/vim-javascript'
 " Git Diff
 Plugin 'airblade/vim-gitgutter'
 " Smooth Scrolling
@@ -53,6 +57,16 @@ Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'JamshedVesuna/vim-markdown-preview'
 " Indentation Highlighting
 Plugin 'Yggdroot/indentLine'
+" Color Highlighting
+Plugin 'lilydjwg/colorizer'
+" Dev Icons for Vim
+" Plugin 'ryanoasis/vim-devicons'
+" NerdTree Syntax Highlighting
+" Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Vim PanDoc
+Plugin 'vim-pandoc/vim-pandoc'
+" Vim PanDoc Syntax Highlighting
+Plugin 'vim-pandoc/vim-pandoc-syntax'
 
 " End Plugin Definition
 call vundle#end()
@@ -65,7 +79,7 @@ set autoindent
 syntax on
 
 " COLOR SCHEME
-colorscheme koe
+colorscheme gruvbox
 " Dark Background
 set background=dark
 
@@ -84,15 +98,12 @@ set showtabline=1
 " Hide the Default Mode Text
 set noshowmode
 
-" PYTHON DOUBLE SPACE TAB
-autocmd Filetype python setlocal expandtab tabstop=2 shiftwidth=2
-
-" =============== VIEW SETTINGS =============== 
+" =============== VIEW SETTINGS ===============
 " THE BASICS
 " Enable Line Numbering
 set nu
 " Wrap text
-set lbr	
+set lbr
 " Use a Visual Bell
 set visualbell
 
@@ -102,7 +113,7 @@ set cmdheight=1
 " Display Cursor Position
 set ruler
 
-" =============== EDITOR OPTIONS =============== 
+" =============== EDITOR OPTIONS ===============
 " FOLDING
 " Fold Based Upon Indent
 set foldmethod=indent
@@ -126,7 +137,7 @@ set expandtab
 
 " DELETING
 " Make Backspace Act Normal
-set backspace=2		
+set backspace=2
 
 " SPLITTING
 " Open splits intutiively
@@ -143,8 +154,8 @@ match OverLength /\%81v.\+/
 " SYNTAX CHECKING [Syntastic]
 " My Compiler
 let g:syntastic_cpp_compiler = 'clang++'
-" Use C++ 11
-let g:syntastic_cpp_compiler_options = ' -std=c++11'
+" Use C++ 14
+let g:syntastic_cpp_compiler_options = ' -std=c++1z'
 
 " AUTO COMPLETE
 " Silence Autocomplete Warnings
@@ -155,6 +166,8 @@ set completeopt-=preview
 " LaTeX
 " Set Preview As the Default LaTeX Viewer
 let g:livepreview_previewer = 'open -a Preview'
+" Don't convert symbols
+let g:tex_conceal = ""
 
 " MACVIM
 " Enable Powerline
@@ -166,10 +179,16 @@ if has("gui_running")
 endif
 
 " GIT [GitGutter]
-" Disabled by Default
-let g:gitgutter_enabled = 0
+" Enabled by Default
+let g:gitgutter_enabled = 1
+" Update time for checking Git
+set updatetime=250
 
-" =============== EDITOR MACROS =============== 
+" JS
+" Enable JSDoc syntax
+let g:javascript_plugin_jsdoc = 1
+
+" =============== EDITOR MACROS ===============
 " SETUP
 " SPACE LEADER
 let mapleader="\<Space>"
@@ -183,7 +202,7 @@ nnoremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 " Save
 map <Leader>w :w<CR>
 " Save As
-map <Leader>W :w<Space>	
+map <Leader>W :w<Space>
 " Quit
 map <Leader>q :q<CR>
 " Force Quit
@@ -223,6 +242,8 @@ map <Leader>D :match none<CR>
 " NERD TREE
 " Show/Hide NERD Tree
 map <Leader>f :NERDTreeToggle<CR><C-l>
+" Go to NERD Tree
+map <Leader>F :NERDTree<CR>
 
 " GIT
 " Show/Hide GitGutter
@@ -235,28 +256,44 @@ map <Leader>gc :Gcommit -v<CR>
 map <Leader>gp :!git push origin master<CR>
 
 " COMPILING/RUNNING
-" Run In Python 2
-map <Leader>p :w !python2.7<CR>
+" Compile Pandoc
+map <Leader>p :!pandoc --from markdown+fancy_lists *.md --variable urlcolor=cyan -o out.pdf<CR>
 " Run In Python 3
 map <Leader>P :w !python3<CR>
+" Run In Node
+map <Leader>N :w !node<CR>
+" Set Up Cmake in CWD
+map <Leader>C :! cp -r ~/.cmake/* ./; cmake .<CR>
 " Compile C++
 map <Leader>c :make<CR>
+" Compile Rust
+map <Leader>ru :!rustc ./*.rs -o run<CR>
+" Run Rust
+map <Leader>rr :!./run<CR>
+" Run Gulp default task (Used for compiling JS)
+map <Leader>gu :!gulp<CR>
+" Compile SCSS
+map <Leader>gs :!gulp compileCSS<CR>
+" Compile JS
+map <Leader>gj :!gulp compileJS<CR>
+" Compile Doc
+map <Leader>gd :!gulp document<CR>
+" Lint Client
+map <Leader>glc :!gulp lintClient<CR>
+" Lint Server
+map <Leader>gln :!gulp lintNode<CR>
 " Run Compiled C++
 map <Leader>R :!./run<CR>
 " Generate cout from comment
 map <Leader>o 0/\/<CR>velcstd::cout << "<esc>$a\n";<esc>:nohl<CR><C-l>
 " Turn cout into comment
 map <Leader>O 0/std<CR>v5ec// <esc>$v3hx:nohl<CR><C-l>
-" Read in starter main code
-map <Leader>C :r ~/.cpp<CR>kdd
-" Read in starter class code
-map <Leader>H :r ~/.h<CR>kdd
 " Bring up quickfix
-map <Leader>F :cope<CR>
+" map <Leader>F :cope<CR>
 " Next fix
-map <Leader>n :cn<CR>
+" map <Leader>n :cn<CR>
 " Previous fix
-map <Leader>N :cp<CR>
+" map <Leader>N :cp<CR>
 " Grep for TODO statements
 map <Leader>T :vimgrep "TODO" ./* -r<CR>
 
@@ -274,7 +311,7 @@ map <Leader>lp :LLPStartPreview<CR>
 " Config
 map <Leader>r :so ~/.vimrc<CR>
 
-" ============= CRYPTOGRAPHY SETUP ============= 
+" ============= CRYPTOGRAPHY SETUP =============
 " MAIN CRYPTO
 " Use Strong-Ish Algorithm
 :setlocal cm=blowfish
