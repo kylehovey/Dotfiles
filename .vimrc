@@ -20,17 +20,16 @@ filetype off
 " Set the Runtime Path to Include Vundle and Initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 
-
 " VUNDLE PLUGINS
 " Begin Plugin Definition
 call vundle#begin()
 
 " Vundle Plugin Manager
 Plugin 'VundleVim/Vundle.vim'
-" Airline Font Support
-Plugin 'vim-airline/vim-airline'
 " NERD Tree File Browser
 Plugin 'scrooloose/nerdtree'
+" FZF Fuzzy Finder Support
+Plugin 'junegunn/fzf'
 " Syntax Checking
 Plugin 'scrooloose/syntastic'
 " Surround
@@ -43,30 +42,24 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
 " Language Support
 Plugin 'sheerun/vim-polyglot'
-" Better JS Support
-Plugin 'pangloss/vim-javascript'
 " Git Diff
 Plugin 'airblade/vim-gitgutter'
 " Smooth Scrolling
 Plugin 'yuttie/comfortable-motion.vim'
 " Vim LaTeX
 Plugin 'vim-latex/vim-latex'
-" Latex Preview
+" LaTeX Preview
 Plugin 'xuhdev/vim-latex-live-preview'
-" Markdown Preview
-Plugin 'JamshedVesuna/vim-markdown-preview'
 " Indentation Highlighting
 Plugin 'Yggdroot/indentLine'
 " Color Highlighting
 Plugin 'lilydjwg/colorizer'
-" Dev Icons for Vim
-" Plugin 'ryanoasis/vim-devicons'
-" NerdTree Syntax Highlighting
-" Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+" NerdTree Git Integration
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Vim PanDoc
-Plugin 'vim-pandoc/vim-pandoc'
-" Vim PanDoc Syntax Highlighting
 Plugin 'vim-pandoc/vim-pandoc-syntax'
+" Delete buffers and keep windows intact
+Plugin 'qpkorr/vim-bufkill'
 
 " End Plugin Definition
 call vundle#end()
@@ -87,12 +80,9 @@ set background=dark
 " Handlebars Template Syntax
 au BufRead,BufNewFile *.handlebars,*.hbs set ft=html syntax=handlebars
 
-" ============== FONT SUPPORT =================
-" AIRLINE FONT [Airline]
-" Allow Airline Fonts
-let g:airline_powerline_fonts = 1
-" Always Display Status Line
-set laststatus=2
+" ============== STATUS SECTIONS =================
+" Never Display Status Line
+set laststatus=0
 " Show the Tab Line When We Need It
 set showtabline=1
 " Hide the Default Mode Text
@@ -147,9 +137,8 @@ set splitright
 " HIGHLIGHTING
 " Highlight All Search Results
 set hlsearch
-" Highlight Words Over 80 Characters
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
+" Transparent background
+hi Normal guibg=NONE ctermbg=NONE
 
 " SYNTAX CHECKING [Syntastic]
 " My Compiler
@@ -159,7 +148,7 @@ let g:syntastic_cpp_compiler_options = ' -std=c++1z'
 
 " AUTO COMPLETE
 " Silence Autocomplete Warnings
-" let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.config/ycm/ycm_extra_conf.py'
 " Disable Preview Window
 set completeopt-=preview
 
@@ -168,15 +157,6 @@ set completeopt-=preview
 let g:livepreview_previewer = 'open -a Preview'
 " Don't convert symbols
 let g:tex_conceal = ""
-
-" MACVIM
-" Enable Powerline
-if has("gui_running")
-   let s:uname = system("uname")
-   if s:uname == "Darwin\n"
-      set guifont=Roboto\ Mono\ for\ Powerline:h12
-   endif
-endif
 
 " GIT [GitGutter]
 " Enabled by Default
@@ -203,18 +183,19 @@ nnoremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 map <Leader>w :w<CR>
 " Save As
 map <Leader>W :w<Space>
-" Quit
-map <Leader>q :q<CR>
-" Force Quit
-map <Leader>Q :q!<CR>
+" Delete Buffer
+map <Leader>q :BD<CR>
+" Quit Vim
+map <Leader>Q :q<CR>
+
+" SPELL CHECKING
+map <Leader>s z=1<CR>
 
 " FILE SHORTCUTS
 " Edit .vimrc
-map <Leader>ev <C-w>v<C-w>l:e ~/.vimrc<CR>
+map <Leader>ev :e ~/.vimrc<CR>
 " Edit Todo
 map <Leader>et :e ~/Dropbox/Todo/todo.vim<CR>
-" Edit UPEL Task List
-map <Leader>eu :e ~/Dropbox/Todo/upel.vim<CR>
 
 " TAB MANAGEMENT
 " Open a New Tab
@@ -234,16 +215,18 @@ nnoremap <Leader>j <C-w>j
 nnoremap <Leader>h <C-w>h
 " Navigate Right
 nnoremap <Leader>l <C-w>l
-
-" HIGHLIGHT MANAGEMENT
-" Turn off highlighting
-map <Leader>D :match none<CR>
+" Equalize Splits
+nnoremap <Leader>= <C-w>=
 
 " NERD TREE
-" Show/Hide NERD Tree
-map <Leader>f :NERDTreeToggle<CR><C-l>
 " Go to NERD Tree
-map <Leader>F :NERDTree<CR>
+map <Leader>f :NERDTreeToggle<CR><C-l>
+
+" FZF
+" Run through ag first to ignore everything in .gitignore
+let $FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
+" Open FZF
+map <Leader>F :FZF<CR><C-l>
 
 " GIT
 " Show/Hide GitGutter
@@ -253,15 +236,17 @@ map <Leader>ga :Gwrite<CR>
 " Commit Changes
 map <Leader>gc :Gcommit -v<CR>
 " Push Changes
-map <Leader>gp :!git push origin master<CR>
+" map <Leader>gp :!git push origin master<CR>
 
 " COMPILING/RUNNING
 " Compile Pandoc
-map <Leader>p :!pandoc --from markdown+fancy_lists *.md --variable urlcolor=cyan -o out.pdf<CR>
+map <Leader>P :!pandoc --from markdown+fancy_lists *.md --variable urlcolor=cyan -o out.pdf<CR>
 " Run In Python 3
-map <Leader>P :w !python3<CR>
+map <Leader>p :w !python<CR>
 " Run In Node
 map <Leader>N :w !node<CR>
+" Run In Ruby
+map <Leader>bb :w !ruby<CR>
 " Set Up Cmake in CWD
 map <Leader>C :! cp -r ~/.cmake/* ./; cmake .<CR>
 " Compile C++
@@ -282,18 +267,14 @@ map <Leader>gd :!gulp document<CR>
 map <Leader>glc :!gulp lintClient<CR>
 " Lint Server
 map <Leader>gln :!gulp lintNode<CR>
+" Run Tests
+map <Leader>gt :!gulp test<CR>
 " Run Compiled C++
 map <Leader>R :!./run<CR>
 " Generate cout from comment
 map <Leader>o 0/\/<CR>velcstd::cout << "<esc>$a\n";<esc>:nohl<CR><C-l>
 " Turn cout into comment
 map <Leader>O 0/std<CR>v5ec// <esc>$v3hx:nohl<CR><C-l>
-" Bring up quickfix
-" map <Leader>F :cope<CR>
-" Next fix
-" map <Leader>n :cn<CR>
-" Previous fix
-" map <Leader>N :cp<CR>
 " Grep for TODO statements
 map <Leader>T :vimgrep "TODO" ./* -r<CR>
 
