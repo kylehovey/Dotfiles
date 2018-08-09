@@ -11,6 +11,8 @@ source $ZSH/oh-my-zsh.sh
 
 setopt AUTO_CD
 
+alias gaster="git push origin master"
+alias commit="git commit -m"
 alias vimc="vim ~/.vimrc"
 alias vimz="vim ~/.zshrc"
 alias stubon="sudo /usr/local/opt/stubby/sbin/stubby-setdns-macos.sh"
@@ -28,7 +30,7 @@ alias dnd="vim ~/Dropbox/Todo/dnd.md"
 alias todo="vim ~/Dropbox/Todo/todo.vim"
 alias adventure="open https://drive.google.com/drive/u/1/folders/1ctv3djG9DawZTHBEqSB6CSRBi2bFlgwq"
 alias bank="open https://docs.google.com/spreadsheets/d/1jKbl2gOvpM562lxchtT8ihJIRDJTK-yOQKwxWh0h3Q4/edit?usp=sharing"
-alias fire="open https://maps.nwcg.gov/sa/#/%3F/48.3868/-120.5337/8"
+alias fire="open https://maps.nwcg.gov/sa/"
 alias speed="wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip"
 alias whiteboard="convert "$1" -morphology Convolve DoG:15,100,0 -negate -normalize -blur 0x1 -channel RBG -level 60%,91%,0.1 "$2""
 
