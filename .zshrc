@@ -11,6 +11,9 @@ source $ZSH/oh-my-zsh.sh
 
 setopt AUTO_CD
 
+alias master="git checkout master && git pull"
+alias branch="git checkout -b"
+alias dot="~/.dotfiles/push.sh"
 alias gaster="git push origin master"
 alias commit="git commit -m"
 alias vimc="vim ~/.vimrc"
