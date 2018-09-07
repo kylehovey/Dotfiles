@@ -1,6 +1,9 @@
-export PATH=$HOME/bin:/usr/local/bin:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin:$PATH
+if [[ `uname` == 'Darwin' ]]; then
+  export PATH=$HOME/bin:/usr/local/bin:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin:$PATH
+  export CXX="/usr/local/opt/llvm/bin/clang++"
+fi
+
 export FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
-export CXX="/usr/local/opt/llvm/bin/clang++"
 export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="sorin"
@@ -11,6 +14,12 @@ source $ZSH/oh-my-zsh.sh
 
 setopt AUTO_CD
 
+if [[ `uname` == 'Darwin' ]]; then
+  alias g++="/usr/local/opt/llvm/bin/clang++"
+  alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
+fi
+alias ass="cd ~/Dropbox/School/USU/S6/"
+alias cat="bat"
 alias master="git checkout master && git pull"
 alias branch="git checkout -b"
 alias dot="~/.dotfiles/push.sh"
@@ -22,11 +31,9 @@ alias stubon="sudo /usr/local/opt/stubby/sbin/stubby-setdns-macos.sh"
 alias stuboff="sudo /usr/local/opt/stubby/sbin/stubby-setdns-macos.sh -r"
 alias makec="cp -r ~/.cmake/* ~/.cmake/.* ./"
 alias mullid="openssl aes-256-cbc -d -in ~/Dropbox/Todo/mullid | pbcopy"
-alias g++="/usr/local/opt/llvm/bin/clang++"
 alias fix="brew services restart chunkwm"
 alias groot="while [ ! -d ./.git ]; do cd ..; done"
 alias path="pwd | pbcopy"
-alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
 alias reload=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias tmux="tmux -2"
 alias dnd="vim ~/Dropbox/Todo/dnd.md"

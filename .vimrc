@@ -60,6 +60,8 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 " Delete buffers and keep windows intact
 Plugin 'qpkorr/vim-bufkill'
+" Searcher that is silver
+Plugin 'mileszs/ack.vim'
 
 " End Plugin Definition
 call vundle#end()
@@ -72,7 +74,7 @@ set autoindent
 syntax on
 
 " COLOR SCHEME
-colorscheme gruvbox
+colorscheme srcery
 " Dark Background
 set background=dark
 
@@ -168,6 +170,12 @@ set updatetime=250
 " Enable JSDoc syntax
 let g:javascript_plugin_jsdoc = 1
 
+" ACK/AG
+" Use ag instead of ack
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
 " =============== EDITOR MACROS ===============
 " SETUP
 " SPACE LEADER
@@ -217,6 +225,8 @@ nnoremap <Leader>h <C-w>h
 nnoremap <Leader>l <C-w>l
 " Equalize Splits
 nnoremap <Leader>= <C-w>=
+" Minimize Split
+nnoremap <Leader>- :vertical resize 0<CR>
 
 " NERD TREE
 " Go to NERD Tree
@@ -227,6 +237,9 @@ map <Leader>f :NERDTreeToggle<CR><C-l>
 let $FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
 " Open FZF
 map <Leader>F :FZF<CR><C-l>
+
+" ACK
+map <Leader>a :Ack!<Space>""<Left>
 
 " GIT
 " Show/Hide GitGutter
