@@ -10,6 +10,8 @@ set t_Co=256
 set clipboard=unnamedplus,unnamed,autoselect
 " Enable Mouse Support
 set mouse=a
+" Disable bell
+set belloff=all
 
 " =========== PLUGIN MANAGER =============
 " VUNDLE SETUP
@@ -38,6 +40,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 " Git Integration
 Plugin 'tpope/vim-fugitive'
+" Rails Support
+Plugin 'tpope/vim-rails'
 " Auto Complete
 Plugin 'Valloric/YouCompleteMe'
 " Language Support
@@ -45,7 +49,7 @@ Plugin 'sheerun/vim-polyglot'
 " Git Diff
 Plugin 'airblade/vim-gitgutter'
 " Smooth Scrolling
-Plugin 'yuttie/comfortable-motion.vim'
+" Plugin 'yuttie/comfortable-motion.vim'
 " Vim LaTeX
 Plugin 'vim-latex/vim-latex'
 " LaTeX Preview
@@ -57,11 +61,18 @@ Plugin 'lilydjwg/colorizer'
 " NerdTree Git Integration
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Vim PanDoc
+Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 " Delete buffers and keep windows intact
 Plugin 'qpkorr/vim-bufkill'
 " Searcher that is silver
 Plugin 'mileszs/ack.vim'
+" Commenting
+Plugin 'tomtom/tcomment_vim'
+" Nice Status Bar
+Plugin 'vim-airline/vim-airline'
+" Git Blame
+Plugin 'zivyangll/git-blame.vim'
 
 " End Plugin Definition
 call vundle#end()
@@ -84,11 +95,11 @@ au BufRead,BufNewFile *.handlebars,*.hbs set ft=html syntax=handlebars
 
 " ============== STATUS SECTIONS =================
 " Never Display Status Line
-set laststatus=0
+" set laststatus=0
 " Show the Tab Line When We Need It
 set showtabline=1
 " Hide the Default Mode Text
-set noshowmode
+" set noshowmode
 
 " =============== VIEW SETTINGS ===============
 " THE BASICS
@@ -159,6 +170,12 @@ set completeopt-=preview
 let g:livepreview_previewer = 'open -a Preview'
 " Don't convert symbols
 let g:tex_conceal = ""
+" And please don't add text I didn't type...
+let g:Imap_FreezeImap=1
+" Send errors to black hole
+let g:Tex_ViewRule_pdf='evince 2>/dev/null'
+" Stop the linter and warnings
+let g:Tex_IgnoreLevel = 8
 
 " GIT [GitGutter]
 " Enabled by Default
@@ -186,24 +203,32 @@ let mapleader="\<Space>"
 nnoremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 nnoremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
+" Timeout for key codes
+
 " FILE I/O
 " Save
-map <Leader>w :w<CR>
+nnoremap ; :w<CR>
 " Save As
 map <Leader>W :w<Space>
-" Delete Buffer
-map <Leader>q :BD<CR>
 " Quit Vim
 map <Leader>Q :q<CR>
 
 " SPELL CHECKING
-map <Leader>s z=1<CR>
+map <Leader>w z=1<CR>
+
+" SESSIONS
+" Create new session
+map <Leader>sc :mks ~/.vim/sessions/.vim<Left><Left><Left><Left>
+" Save session
+map <Leader>ss :mks!<CR>
+" Load session
+map <Leader>sl :source ~/.vim/sessions/
 
 " FILE SHORTCUTS
 " Edit .vimrc
 map <Leader>ev :e ~/.vimrc<CR>
 " Edit Todo
-map <Leader>et :e ~/Dropbox/Todo/todo.vim<CR>
+map <Leader>eT :e ~/Dropbox/Todo/todo.vim<CR>
 
 " TAB MANAGEMENT
 " Open a New Tab
@@ -227,6 +252,16 @@ nnoremap <Leader>l <C-w>l
 nnoremap <Leader>= <C-w>=
 " Minimize Split
 nnoremap <Leader>- :vertical resize 0<CR>
+
+" BUFFER MANAGEMENT
+" Navigate to Next Buffer
+nnoremap <Leader>H :bprev<CR>
+" Navigate to Previous Buffer
+nnoremap <Leader>L :bnext<CR>
+" Reload Buffer
+map <Leader>e :edit<CR>
+" Delete Buffer
+map <Leader>q :BD<CR>
 
 " NERD TREE
 " Go to NERD Tree
@@ -268,20 +303,6 @@ map <Leader>c :make<CR>
 map <Leader>ru :!rustc ./*.rs -o run<CR>
 " Run Rust
 map <Leader>rr :!./run<CR>
-" Run Gulp default task (Used for compiling JS)
-map <Leader>gu :!gulp<CR>
-" Compile SCSS
-map <Leader>gs :!gulp compileCSS<CR>
-" Compile JS
-map <Leader>gj :!gulp compileJS<CR>
-" Compile Doc
-map <Leader>gd :!gulp document<CR>
-" Lint Client
-map <Leader>glc :!gulp lintClient<CR>
-" Lint Server
-map <Leader>gln :!gulp lintNode<CR>
-" Run Tests
-map <Leader>gt :!gulp test<CR>
 " Run Compiled C++
 map <Leader>R :!./run<CR>
 " Generate cout from comment
