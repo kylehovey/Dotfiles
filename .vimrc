@@ -1,83 +1,46 @@
 " Kyle Hovey's Vim Dotfile
-" Disable weird spacing with emoji's
-:set noemoji
 
 " ================ SYSTEM ================
 " THE BASICS
-" Make sure terminal is 256 colors
-set t_Co=256
-" Set the system clipboard
-set clipboard=unnamedplus,unnamed,autoselect
-" Enable Mouse Support
-set mouse=a
-" Disable bell
-set belloff=all
+set t_Co=256               " Make sure terminal is 256 colors
+set clipboard+=unnamedplus " Set the system clipboard
+set mouse=a                " Enable Mouse Support
+set belloff=all            " Disable bell
+set shell=zsh              " Shell is ZSH
 
 " =========== PLUGIN MANAGER =============
-" VUNDLE SETUP
-" Be iMproved, Required
-set nocompatible
-" Required
-filetype off
-" Set the Runtime Path to Include Vundle and Initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+set nocompatible                  " Be iMproved, Required
+filetype off                      " Required
+set rtp+=~/.vim/bundle/Vundle.vim " Set the Runtime Path to Include Vundle and Initialize
 
-" VUNDLE PLUGINS
-" Begin Plugin Definition
 call vundle#begin()
 
-" Vundle Plugin Manager
-Plugin 'VundleVim/Vundle.vim'
-" NERD Tree File Browser
-Plugin 'scrooloose/nerdtree'
-" FZF Fuzzy Finder Support
-Plugin 'junegunn/fzf'
-" Syntax Checking
-Plugin 'scrooloose/syntastic'
-" Surround
-Plugin 'tpope/vim-surround'
-" Repeat with .
-Plugin 'tpope/vim-repeat'
-" Git Integration
-Plugin 'tpope/vim-fugitive'
-" Rails Support
-Plugin 'tpope/vim-rails'
-" Auto Complete
-Plugin 'Valloric/YouCompleteMe'
-" Language Support
-Plugin 'sheerun/vim-polyglot'
-" Git Diff
-Plugin 'airblade/vim-gitgutter'
-" Smooth Scrolling
-" Plugin 'yuttie/comfortable-motion.vim'
-" Vim LaTeX
-Plugin 'vim-latex/vim-latex'
-" LaTeX Preview
-Plugin 'xuhdev/vim-latex-live-preview'
-" Indentation Highlighting
-Plugin 'Yggdroot/indentLine'
-" Color Highlighting
-Plugin 'lilydjwg/colorizer'
-" NerdTree Git Integration
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-" Vim PanDoc
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
-" Delete buffers and keep windows intact
-Plugin 'qpkorr/vim-bufkill'
-" Searcher that is silver
-Plugin 'mileszs/ack.vim'
-" Commenting
-Plugin 'tomtom/tcomment_vim'
-" Nice Status Bar
-Plugin 'vim-airline/vim-airline'
-" Git Blame
-Plugin 'zivyangll/git-blame.vim'
+Plugin 'VundleVim/Vundle.vim'         " Vundle Plugin Manager
+Plugin 'scrooloose/nerdtree'          " NERD Tree File Browser
+Plugin 'junegunn/fzf'                 " FZF Fuzzy Finder Support
+Plugin 'junegunn/fzf.vim'             " FZF Fuzzy Finder Support
+Plugin 'tpope/vim-surround'           " Surround
+Plugin 'tpope/vim-repeat'             " Repeat with .
+Plugin 'tpope/vim-fugitive'           " Git Integration
+Plugin 'tpope/vim-rails'              " Rails Support
+Plugin 'neoclide/coc.nvim'            " Auto Complete
+Plugin 'sheerun/vim-polyglot'         " Language Support
+Plugin 'airblade/vim-gitgutter'       " Git Diff
+Plugin 'vim-latex/vim-latex'          " Vim LaTeX
+Plugin 'Yggdroot/indentLine'          " Indentation Highlighting
+Plugin 'lilydjwg/colorizer'           " Color Highlighting
+Plugin 'Xuyuanp/nerdtree-git-plugin'  " NerdTree Git Integration
+Plugin 'vim-pandoc/vim-pandoc'        " Vim PanDoc
+Plugin 'vim-pandoc/vim-pandoc-syntax' " Vim PanDoc
+Plugin 'qpkorr/vim-bufkill'           " Delete buffers and keep windows intact
+Plugin 'mileszs/ack.vim'              " Searcher that is silver
+Plugin 'tomtom/tcomment_vim'          " Commenting
+Plugin 'vim-airline/vim-airline'      " Nice Status Bar
+Plugin 'zivyangll/git-blame.vim'      " Git Blame
+Plugin 'vimwiki/vimwiki'              " Vim Wiki
+Plugin 'morhetz/gruvbox'              " Gruvbox Color Scheme
 
-" End Plugin Definition
 call vundle#end()
-filetype plugin indent on
-set autoindent
 
 " =========== SYNTAX HIGHLIGHTING =============
 " THE BASICS
@@ -85,21 +48,13 @@ set autoindent
 syntax on
 
 " COLOR SCHEME
-colorscheme srcery
+colorscheme gruvbox
 " Dark Background
 set background=dark
 
-" SYNTAX FILES
-" Handlebars Template Syntax
-au BufRead,BufNewFile *.handlebars,*.hbs set ft=html syntax=handlebars
-
 " ============== STATUS SECTIONS =================
-" Never Display Status Line
-" set laststatus=0
 " Show the Tab Line When We Need It
 set showtabline=1
-" Hide the Default Mode Text
-" set noshowmode
 
 " =============== VIEW SETTINGS ===============
 " THE BASICS
@@ -128,6 +83,9 @@ set nofoldenable
 set foldlevel=1
 
 " Indentation
+" Eneable indenting and filetype detection
+filetype plugin indent on
+set autoindent
 " Sane tabstop
 set tabstop=2
 set shiftwidth=2
@@ -153,16 +111,14 @@ set hlsearch
 " Transparent background
 hi Normal guibg=NONE ctermbg=NONE
 
-" SYNTAX CHECKING [Syntastic]
-" My Compiler
-let g:syntastic_cpp_compiler = 'clang++'
-" Use C++ 14
-let g:syntastic_cpp_compiler_options = ' -std=c++1z'
-
 " AUTO COMPLETE
-" Silence Autocomplete Warnings
-let g:ycm_global_ycm_extra_conf = '~/.config/ycm/ycm_extra_conf.py'
-" Disable Preview Window
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" Don't open scratch buffers for hints
 set completeopt-=preview
 
 " LaTeX
@@ -194,11 +150,8 @@ if executable('ag')
 endif
 
 " =============== EDITOR MACROS ===============
-" SETUP
 " SPACE LEADER
 let mapleader="\<Space>"
-" Use Semicolon for Command Mode
-" nnoremap ; :
 " Navigate up and down through wrapped lines naturally
 nnoremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 nnoremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
@@ -227,8 +180,6 @@ map <Leader>sl :source ~/.vim/sessions/
 " FILE SHORTCUTS
 " Edit .vimrc
 map <Leader>ev :e ~/.vimrc<CR>
-" Edit Todo
-map <Leader>eT :e ~/Dropbox/Todo/todo.vim<CR>
 
 " TAB MANAGEMENT
 " Open a New Tab
@@ -240,6 +191,21 @@ nnoremap <Leader>sh :sp<CR>
 nnoremap <Leader>sv :vsp<CR>
 
 " SPLIT MANAGEMENT
+" Zoom / Restore window.
+" https://stackoverflow.com/a/26551079/9843390
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+
 " Navigate Up
 nnoremap <Leader>k <C-w>k
 " Navigate Down
@@ -248,6 +214,8 @@ nnoremap <Leader>j <C-w>j
 nnoremap <Leader>h <C-w>h
 " Navigate Right
 nnoremap <Leader>l <C-w>l
+" Zoom/Unzoom Split
+nnoremap <Leader><CR> :ZoomToggle<CR>
 " Equalize Splits
 nnoremap <Leader>= <C-w>=
 " Minimize Split
@@ -273,30 +241,27 @@ let $FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
 " Open FZF
 map <Leader>F :FZF<CR><C-l>
 
+" Search Staged Files
+map <Leader>G :GFiles?<CR><C-l>
+
 " ACK
-map <Leader>a :Ack!<Space>""<Left>
+map <Leader>a :Ack!<Space>"" --<Left><Left><Left><Left>
 
 " GIT
 " Show/Hide GitGutter
 map <Leader>gg :GitGutterToggle<CR>
-" Stage Current File
-map <Leader>ga :Gwrite<CR>
-" Commit Changes
-map <Leader>gc :Gcommit -v<CR>
-" Push Changes
-" map <Leader>gp :!git push origin master<CR>
+" Show Hunk Changes
+map <Leader>gs <Plug>(GitGutterPreviewHunk)
 
 " COMPILING/RUNNING
 " Compile Pandoc
 map <Leader>P :!pandoc --from markdown+fancy_lists *.md --variable urlcolor=cyan -o out.pdf<CR>
 " Run In Python 3
-map <Leader>p :w !python<CR>
+map <Leader>p :w !python3<CR>
 " Run In Node
 map <Leader>N :w !node<CR>
 " Run In Ruby
 map <Leader>bb :w !ruby<CR>
-" Set Up Cmake in CWD
-map <Leader>C :! cp -r ~/.cmake/* ./; cmake .<CR>
 " Compile C++
 map <Leader>c :make<CR>
 " Compile Rust
@@ -312,6 +277,12 @@ map <Leader>O 0/std<CR>v5ec// <esc>$v3hx:nohl<CR><C-l>
 " Grep for TODO statements
 map <Leader>T :vimgrep "TODO" ./* -r<CR>
 
+" SNIPPETS
+" Read in React Component Boilerplate
+map <Leader>SR :r ~/.vim/snippets/react<CR>
+" Set Up Cmake in CWD
+map <Leader>C :! cp -r ~/.cmake/* ./; cmake .<CR>
+
 " SEARCHING/HIGHLIGHTING
 " Clear Highlights and Redraw
 map <Leader>d :nohl<CR><C-l>
@@ -320,13 +291,5 @@ map <Leader>d :nohl<CR><C-l>
 " Toggle indent lines
 map <Leader>i :IndentLinesToggle<CR>
 
-" LaTeX
-map <Leader>lp :LLPStartPreview<CR>
-
 " Config
 map <Leader>r :so ~/.vimrc<CR>
-
-" ============= CRYPTOGRAPHY SETUP =============
-" MAIN CRYPTO
-" Use Strong-Ish Algorithm
-:setlocal cm=blowfish
