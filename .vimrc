@@ -11,36 +11,38 @@ set shell=zsh              " Shell is ZSH
 " =========== PLUGIN MANAGER =============
 set nocompatible                  " Be iMproved, Required
 filetype off                      " Required
-set rtp+=~/.vim/bundle/Vundle.vim " Set the Runtime Path to Include Vundle and Initialize
 
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-Plugin 'VundleVim/Vundle.vim'         " Vundle Plugin Manager
-Plugin 'scrooloose/nerdtree'          " NERD Tree File Browser
-Plugin 'junegunn/fzf'                 " FZF Fuzzy Finder Support
-Plugin 'junegunn/fzf.vim'             " FZF Fuzzy Finder Support
-Plugin 'tpope/vim-surround'           " Surround
-Plugin 'tpope/vim-repeat'             " Repeat with .
-Plugin 'tpope/vim-fugitive'           " Git Integration
-Plugin 'tpope/vim-rails'              " Rails Support
-Plugin 'neoclide/coc.nvim'            " Auto Complete
-Plugin 'sheerun/vim-polyglot'         " Language Support
-Plugin 'airblade/vim-gitgutter'       " Git Diff
-Plugin 'vim-latex/vim-latex'          " Vim LaTeX
-Plugin 'Yggdroot/indentLine'          " Indentation Highlighting
-Plugin 'lilydjwg/colorizer'           " Color Highlighting
-Plugin 'Xuyuanp/nerdtree-git-plugin'  " NerdTree Git Integration
-Plugin 'vim-pandoc/vim-pandoc'        " Vim PanDoc
-Plugin 'vim-pandoc/vim-pandoc-syntax' " Vim PanDoc
-Plugin 'qpkorr/vim-bufkill'           " Delete buffers and keep windows intact
-Plugin 'mileszs/ack.vim'              " Searcher that is silver
-Plugin 'tomtom/tcomment_vim'          " Commenting
-Plugin 'vim-airline/vim-airline'      " Nice Status Bar
-Plugin 'zivyangll/git-blame.vim'      " Git Blame
-Plugin 'vimwiki/vimwiki'              " Vim Wiki
-Plugin 'morhetz/gruvbox'              " Gruvbox Color Scheme
+Plug 'scrooloose/nerdtree'                                 " NERD Tree File Browser
+Plug 'junegunn/fzf'                                        " FZF Fuzzy Finder Support
+Plug 'junegunn/fzf.vim'                                    " FZF Fuzzy Finder Support
+Plug 'godlygeek/tabular'                                   " Required for Markdown support
+Plug 'plasticboy/vim-markdown'                             " Markdown support
+Plug 'tpope/vim-surround'                                  " Surround
+Plug 'tpope/vim-repeat'                                    " Repeat with .
+Plug 'tpope/vim-fugitive'                                  " Git Integration
+Plug 'tpope/vim-rails'                                     " Rails Support
+Plug 'neoclide/coc.nvim' , {'branch': 'release'}           " Auto Complete
+Plug 'sheerun/vim-polyglot'                                " Language Support
+Plug 'JuliaEditorSupport/julia-vim'                        " Vim Julia Support
+Plug 'airblade/vim-gitgutter'                              " Git Diff
+Plug 'vim-latex/vim-latex'                                 " Vim LaTeX
+Plug 'Yggdroot/indentLine'                                 " Indentation Highlighting
+Plug 'lilydjwg/colorizer'                                  " Color Highlighting
+Plug 'Xuyuanp/nerdtree-git-plugin'                         " NerdTree Git Integration
+Plug 'vim-pandoc/vim-pandoc'                               " Vim PanDoc
+Plug 'vim-pandoc/vim-pandoc-syntax'                        " Vim PanDoc
+Plug 'qpkorr/vim-bufkill'                                  " Delete buffers and keep windows intact
+Plug 'mileszs/ack.vim'                                     " Searcher that is silver
+Plug 'tomtom/tcomment_vim'                                 " Commenting
+Plug 'vim-airline/vim-airline'                             " Nice Status Bar
+Plug 'zivyangll/git-blame.vim'                             " Git Blame
+Plug 'vimwiki/vimwiki'                                     " Vim Wiki
+Plug 'morhetz/gruvbox'                                     " Gruvbox Color Scheme
+Plug 'elm-tooling/elm-vim'                                 " Elm
 
-call vundle#end()
+call plug#end()
 
 " =========== SYNTAX HIGHLIGHTING =============
 " THE BASICS
@@ -118,8 +120,27 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 " Don't open scratch buffers for hints
 set completeopt-=preview
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
 
 " LaTeX
 " Set Preview As the Default LaTeX Viewer
@@ -260,6 +281,8 @@ map <Leader>P :!pandoc --from markdown+fancy_lists *.md --variable urlcolor=cyan
 map <Leader>p :w !python3<CR>
 " Run In Node
 map <Leader>N :w !node<CR>
+" Run In Julia
+map <Leader>J :w !julia<CR>
 " Run In Ruby
 map <Leader>bb :w !ruby<CR>
 " Compile C++
@@ -277,6 +300,10 @@ map <Leader>O 0/std<CR>v5ec// <esc>$v3hx:nohl<CR><C-l>
 " Grep for TODO statements
 map <Leader>T :vimgrep "TODO" ./* -r<CR>
 
+" MARKDOWN
+" Code Blocks
+let g:markdown_fenced_languages = ['coffee', 'css', 'erb=eruby', 'javascript', 'js=javascript', 'json=javascript', 'ruby', 'sass', 'xml', 'typescript', 'bash']
+
 " SNIPPETS
 " Read in React Component Boilerplate
 map <Leader>SR :r ~/.vim/snippets/react<CR>
@@ -286,6 +313,10 @@ map <Leader>C :! cp -r ~/.cmake/* ./; cmake .<CR>
 " SEARCHING/HIGHLIGHTING
 " Clear Highlights and Redraw
 map <Leader>d :nohl<CR><C-l>
+
+" CALCULATION
+" Replace visual selection with result of calculation
+vmap <Leader>c :!bc<CR>
 
 " VIEW CHANGING
 " Toggle indent lines
