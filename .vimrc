@@ -33,7 +33,6 @@ Plug 'lilydjwg/colorizer'                                  " Color Highlighting
 Plug 'Xuyuanp/nerdtree-git-plugin'                         " NerdTree Git Integration
 Plug 'vim-pandoc/vim-pandoc'                               " Vim PanDoc
 Plug 'vim-pandoc/vim-pandoc-syntax'                        " Vim PanDoc
-Plug 'qpkorr/vim-bufkill'                                  " Delete buffers and keep windows intact
 Plug 'mileszs/ack.vim'                                     " Searcher that is silver
 Plug 'tomtom/tcomment_vim'                                 " Commenting
 Plug 'vim-airline/vim-airline'                             " Nice Status Bar
@@ -41,6 +40,15 @@ Plug 'zivyangll/git-blame.vim'                             " Git Blame
 Plug 'vimwiki/vimwiki'                                     " Vim Wiki
 Plug 'morhetz/gruvbox'                                     " Gruvbox Color Scheme
 Plug 'elm-tooling/elm-vim'                                 " Elm
+
+" ============== CoC EXTENSIONS ==============
+Plug 'neoclide/coc-tsserver'
+Plug 'neoclide/coc-eslint'
+Plug 'fannheyward/coc-pyright'
+Plug 'fannheyward/coc-markdownlint'
+Plug 'fannheyward/coc-julia'
+Plug 'neoclide/coc-json'
+Plug 'neoclide/coc-css'
 
 call plug#end()
 
@@ -103,7 +111,7 @@ set expandtab
 set backspace=2
 
 " SPLITTING
-" Open splits intutiively
+" Open splits intuitively
 set splitbelow
 set splitright
 
@@ -113,14 +121,61 @@ set hlsearch
 " Transparent background
 hi Normal guibg=NONE ctermbg=NONE
 
-" AUTO COMPLETE
+" LANGUAGE SERVER SUPPORT
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
 " Use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Don't open scratch buffers for hints
 set completeopt-=preview
@@ -185,7 +240,8 @@ nnoremap ; :w<CR>
 " Save As
 map <Leader>W :w<Space>
 " Quit Vim
-map <Leader>Q :q<CR>
+map <Leader>q :q<CR>
+map <Leader>Q :q!<CR>
 
 " SPELL CHECKING
 map <Leader>w z=1<CR>
@@ -249,8 +305,6 @@ nnoremap <Leader>H :bprev<CR>
 nnoremap <Leader>L :bnext<CR>
 " Reload Buffer
 map <Leader>e :edit<CR>
-" Delete Buffer
-map <Leader>q :BD<CR>
 
 " NERD TREE
 " Go to NERD Tree
@@ -266,7 +320,7 @@ map <Leader>F :FZF<CR><C-l>
 map <Leader>G :GFiles?<CR><C-l>
 
 " ACK
-map <Leader>a :Ack!<Space>"" --<Left><Left><Left><Left>
+map <Leader>a :Ag<CR>
 
 " GIT
 " Show/Hide GitGutter
@@ -297,18 +351,10 @@ map <Leader>R :!./run<CR>
 map <Leader>o 0/\/<CR>velcstd::cout << "<esc>$a\n";<esc>:nohl<CR><C-l>
 " Turn cout into comment
 map <Leader>O 0/std<CR>v5ec// <esc>$v3hx:nohl<CR><C-l>
-" Grep for TODO statements
-map <Leader>T :vimgrep "TODO" ./* -r<CR>
 
 " MARKDOWN
 " Code Blocks
 let g:markdown_fenced_languages = ['coffee', 'css', 'erb=eruby', 'javascript', 'js=javascript', 'json=javascript', 'ruby', 'sass', 'xml', 'typescript', 'bash']
-
-" SNIPPETS
-" Read in React Component Boilerplate
-map <Leader>SR :r ~/.vim/snippets/react<CR>
-" Set Up Cmake in CWD
-map <Leader>C :! cp -r ~/.cmake/* ./; cmake .<CR>
 
 " SEARCHING/HIGHLIGHTING
 " Clear Highlights and Redraw
