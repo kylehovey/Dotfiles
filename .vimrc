@@ -15,8 +15,9 @@ filetype off                      " Required
 call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdtree'                                 " NERD Tree File Browser
-Plug 'junegunn/fzf'                                        " FZF Fuzzy Finder Support
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }        " FZF Fuzzy Finder Support
 Plug 'junegunn/fzf.vim'                                    " FZF Fuzzy Finder Support
+Plug 'antoinemadec/coc-fzf'                                " FZF Searching Coc Buffers
 Plug 'godlygeek/tabular'                                   " Required for Markdown support
 Plug 'plasticboy/vim-markdown'                             " Markdown support
 Plug 'tpope/vim-surround'                                  " Surround
@@ -25,6 +26,7 @@ Plug 'tpope/vim-fugitive'                                  " Git Integration
 Plug 'tpope/vim-rails'                                     " Rails Support
 Plug 'neoclide/coc.nvim' , {'branch': 'release'}           " Auto Complete
 Plug 'sheerun/vim-polyglot'                                " Language Support
+Plug 'posva/vim-vue'                                       " Vue Syntax Highlighting
 Plug 'JuliaEditorSupport/julia-vim'                        " Vim Julia Support
 Plug 'airblade/vim-gitgutter'                              " Git Diff
 Plug 'vim-latex/vim-latex'                                 " Vim LaTeX
@@ -33,7 +35,6 @@ Plug 'lilydjwg/colorizer'                                  " Color Highlighting
 Plug 'Xuyuanp/nerdtree-git-plugin'                         " NerdTree Git Integration
 Plug 'vim-pandoc/vim-pandoc'                               " Vim PanDoc
 Plug 'vim-pandoc/vim-pandoc-syntax'                        " Vim PanDoc
-Plug 'mileszs/ack.vim'                                     " Searcher that is silver
 Plug 'tomtom/tcomment_vim'                                 " Commenting
 Plug 'vim-airline/vim-airline'                             " Nice Status Bar
 Plug 'zivyangll/git-blame.vim'                             " Git Blame
@@ -42,13 +43,19 @@ Plug 'morhetz/gruvbox'                                     " Gruvbox Color Schem
 Plug 'elm-tooling/elm-vim'                                 " Elm
 
 " ============== CoC EXTENSIONS ==============
-Plug 'neoclide/coc-tsserver'
-Plug 'neoclide/coc-eslint'
-Plug 'fannheyward/coc-pyright'
-Plug 'fannheyward/coc-markdownlint'
-Plug 'fannheyward/coc-julia'
-Plug 'neoclide/coc-json'
-Plug 'neoclide/coc-css'
+" I list these here mostly so they can be installed
+" via :CocInstall $EXTENSION. Installing them via
+" a plugin manager is wonky for updates
+" Plug 'neoclide/coc-tsserver'
+" Plug 'neoclide/coc-eslint'
+" Plug 'neoclide/coc-html'
+" Plug 'fannheyward/coc-pyright'
+" Plug 'fannheyward/coc-markdownlint'
+" Plug 'fannheyward/coc-julia'
+" Plug 'josa42/coc-sh'
+" Plug 'neoclide/coc-json'
+" Plug 'neoclide/coc-yaml'
+" Plug 'neoclide/coc-css'
 
 call plug#end()
 
@@ -121,22 +128,12 @@ set hlsearch
 " Transparent background
 hi Normal guibg=NONE ctermbg=NONE
 
-" LANGUAGE SERVER SUPPORT
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("nvim-0.5.0") || has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
-
 " Use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -171,11 +168,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
-
-" Add (Neo)Vim's native statusline support.
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Don't open scratch buffers for hints
 set completeopt-=preview
@@ -314,7 +306,7 @@ map <Leader>f :NERDTreeToggle<CR><C-l>
 " Run through ag first to ignore everything in .gitignore
 let $FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
 " Open FZF
-map <Leader>F :FZF<CR><C-l>
+map <Leader>F :Files<CR>
 
 " Search Staged Files
 map <Leader>G :GFiles?<CR><C-l>
