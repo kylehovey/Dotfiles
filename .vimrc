@@ -18,6 +18,7 @@ Plug 'scrooloose/nerdtree'                                 " NERD Tree File Brow
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }        " FZF Fuzzy Finder Support
 Plug 'junegunn/fzf.vim'                                    " FZF Fuzzy Finder Support
 Plug 'antoinemadec/coc-fzf'                                " FZF Searching Coc Buffers
+Plug 'coreyja/fzf.devicon.vim'
 Plug 'godlygeek/tabular'                                   " Required for Markdown support
 Plug 'plasticboy/vim-markdown'                             " Markdown support
 Plug 'tpope/vim-surround'                                  " Surround
@@ -41,6 +42,7 @@ Plug 'zivyangll/git-blame.vim'                             " Git Blame
 Plug 'vimwiki/vimwiki'                                     " Vim Wiki
 Plug 'morhetz/gruvbox'                                     " Gruvbox Color Scheme
 Plug 'elm-tooling/elm-vim'                                 " Elm
+Plug 'ryanoasis/vim-devicons'
 
 " ============== CoC EXTENSIONS ==============
 " I list these here mostly so they can be installed
