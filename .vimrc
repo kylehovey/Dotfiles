@@ -18,7 +18,7 @@ Plug 'scrooloose/nerdtree'                                 " NERD Tree File Brow
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }        " FZF Fuzzy Finder Support
 Plug 'junegunn/fzf.vim'                                    " FZF Fuzzy Finder Support
 Plug 'antoinemadec/coc-fzf'                                " FZF Searching Coc Buffers
-Plug 'coreyja/fzf.devicon.vim'
+Plug 'coreyja/fzf.devicon.vim'                             " DevIcons for FZF
 Plug 'godlygeek/tabular'                                   " Required for Markdown support
 Plug 'plasticboy/vim-markdown'                             " Markdown support
 Plug 'tpope/vim-surround'                                  " Surround
@@ -42,12 +42,16 @@ Plug 'zivyangll/git-blame.vim'                             " Git Blame
 Plug 'vimwiki/vimwiki'                                     " Vim Wiki
 Plug 'morhetz/gruvbox'                                     " Gruvbox Color Scheme
 Plug 'elm-tooling/elm-vim'                                 " Elm
-Plug 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons'                              " DevIcon support for Vim
 
 " ============== CoC EXTENSIONS ==============
 " I list these here mostly so they can be installed
 " via :CocInstall $EXTENSION. Installing them via
 " a plugin manager is wonky for updates
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh'
+    \ }
 " Plug 'neoclide/coc-tsserver'
 " Plug 'neoclide/coc-eslint'
 " Plug 'neoclide/coc-html'
@@ -148,6 +152,10 @@ let g:coc_snippet_next = '<tab>'
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" File auto-format on save
+autocmd FileType haskell autocmd call CocAction('format')
+let g:haskell_indent_disable=1
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -308,13 +316,13 @@ map <Leader>f :NERDTreeToggle<CR><C-l>
 " Run through ag first to ignore everything in .gitignore
 let $FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
 " Open FZF
-map <Leader>F :Files<CR>
+map <Leader>F :FilesWithDevicons<CR>
 
 " Search Staged Files
-map <Leader>G :GFiles?<CR><C-l>
+map <Leader>G :GFilesWithDevicons?<CR><C-l>
 
 " ACK
-map <Leader>a :Ag<CR>
+map <Leader>a :AgWithDevicons<CR>
 
 " GIT
 " Show/Hide GitGutter
