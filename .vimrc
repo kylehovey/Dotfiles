@@ -28,6 +28,7 @@ Plug 'tpope/vim-rails'                                     " Rails Support
 Plug 'neoclide/coc.nvim' , {'branch': 'release'}           " Auto Complete
 Plug 'sheerun/vim-polyglot'                                " Language Support
 Plug 'posva/vim-vue'                                       " Vue Syntax Highlighting
+Plug 'leafOfTree/vim-svelte-plugin'                        " Svelte Syntax
 Plug 'JuliaEditorSupport/julia-vim'                        " Vim Julia Support
 Plug 'airblade/vim-gitgutter'                              " Git Diff
 Plug 'vim-latex/vim-latex'                                 " Vim LaTeX
@@ -198,6 +199,10 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
+
+" Svelte
+" Enable Typescript
+let g:vim_svelte_plugin_use_typescript = 1
 
 " LaTeX
 " Set Preview As the Default LaTeX Viewer
