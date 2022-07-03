@@ -54,14 +54,15 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'do': 'bash install.sh'
     \ }
 " Plug 'neoclide/coc-tsserver'
-" Plug 'neoclide/coc-eslint'
+" Plug 'neoclide/coc-svelte'
 " Plug 'neoclide/coc-html'
+" Plug 'neoclide/coc-eslint'
+" Plug 'neoclide/coc-yaml'
+" Plug 'josa42/coc-sh'
 " Plug 'fannheyward/coc-pyright'
 " Plug 'fannheyward/coc-markdownlint'
 " Plug 'fannheyward/coc-julia'
-" Plug 'josa42/coc-sh'
 " Plug 'neoclide/coc-json'
-" Plug 'neoclide/coc-yaml'
 " Plug 'neoclide/coc-css'
 
 call plug#end()
