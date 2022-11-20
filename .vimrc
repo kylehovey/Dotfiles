@@ -391,13 +391,8 @@ map <Leader>i :IndentLinesToggle<CR>
 " Config
 map <Leader>r :so ~/.vimrc<CR>
 
-" CURSED
-" Heredoc DSL to shim Lua for Telescope extensions
-lua <<EOF
-require("telescope").load_extension "file_browser"
-require("indent_blankline").setup {
-    -- for example, context is off by default, use this to turn it on
-    show_current_context = true,
-    show_current_context_start = true,
-}
-EOF
+" Lua Config
+" Until this vimrc is converted to Lua, config goes here
+:lua require("telescope").load_extension "file_browser"
+:lua require("indent_blankline").setup { show_current_context = true, show_current_context_start = true }
+:lua require('telescope').setup({ defaults = { layout_config = { vertical = { width = 0.2 }}}})
