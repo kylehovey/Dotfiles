@@ -14,39 +14,51 @@ filetype off                      " Required
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'scrooloose/nerdtree'                                   " NERD Tree File Browser
-Plug 'nvim-tree/nvim-web-devicons'                           " Pretty Icons
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Incremental Language Parser
-Plug 'nvim-lua/plenary.nvim'                                 " Dependency for Telescope
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }     " Searching Modal
-Plug 'nvim-telescope/telescope-file-browser.nvim'            " Telescope File Browser
-Plug 'godlygeek/tabular'                                     " Required for Markdown support
-Plug 'plasticboy/vim-markdown'                               " Markdown support
+" Editor Features
 Plug 'tpope/vim-surround'                                    " Surround
 Plug 'tpope/vim-repeat'                                      " Repeat with .
+Plug 'tomtom/tcomment_vim'                                   " Commenting
+Plug 'neoclide/coc.nvim' , {'branch': 'release'}             " Auto Complete With LSP
+Plug 'lukas-reineke/indent-blankline.nvim'                   " Indentation Highlighting
+
+" IDE Features
+Plug 'vim-airline/vim-airline'                               " Nice Status Bar
+Plug 'scrooloose/nerdtree'                                   " NERD Tree File Browser
+Plug 'ryanoasis/vim-devicons'                                " NERD Tree DevIcons
+Plug 'nvim-lua/plenary.nvim'                                 " Dependency for Telescope
+Plug 'nvim-telescope/telescope-file-browser.nvim'            " Telescope File Browser
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }     " Searching Modal
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Incremental Language Parser
+
+" Git
 Plug 'tpope/vim-fugitive'                                    " Git Integration
+Plug 'airblade/vim-gitgutter'                                " Git Diff
+Plug 'Xuyuanp/nerdtree-git-plugin'                           " NerdTree Git Integration
+Plug 'zivyangll/git-blame.vim'                               " Git Blame
+Plug 'ruanyl/vim-gh-line'                                    " Open Selection in GitHub
+Plug 'kdheepak/lazygit.nvim'                                 " LazyGit support
+
+" Themes
+Plug 'morhetz/gruvbox'                                       " Gruvbox Color Scheme
+Plug 'nvim-tree/nvim-web-devicons'                           " Pretty Icons
+
+" Syntax Highlighting
+Plug 'sheerun/vim-polyglot'                                  " Many Languages
+Plug 'lilydjwg/colorizer'                                    " Color Highlighting
+
+" Language Support
 Plug 'tpope/vim-rails'                                       " Rails Support
-Plug 'neoclide/coc.nvim' , {'branch': 'release'}             " Auto Complete
-Plug 'sheerun/vim-polyglot'                                  " Language Support
 Plug 'posva/vim-vue'                                         " Vue Syntax Highlighting
 Plug 'leafOfTree/vim-svelte-plugin'                          " Svelte Syntax
-Plug 'JuliaEditorSupport/julia-vim'                          " Vim Julia Support
-Plug 'airblade/vim-gitgutter'                                " Git Diff
+Plug 'elm-tooling/elm-vim'                                   " Elm
 Plug 'vim-latex/vim-latex'                                   " Vim LaTeX
-Plug 'Yggdroot/indentLine'                                   " Indentation Highlighting
-Plug 'lilydjwg/colorizer'                                    " Color Highlighting
-Plug 'Xuyuanp/nerdtree-git-plugin'                           " NerdTree Git Integration
 Plug 'vim-pandoc/vim-pandoc'                                 " Vim PanDoc
 Plug 'vim-pandoc/vim-pandoc-syntax'                          " Vim PanDoc
-Plug 'tomtom/tcomment_vim'                                   " Commenting
-Plug 'vim-airline/vim-airline'                               " Nice Status Bar
-Plug 'zivyangll/git-blame.vim'                               " Git Blame
+Plug 'JuliaEditorSupport/julia-vim'                          " Vim Julia Support
+Plug 'godlygeek/tabular'                                     " Required for Markdown support
+Plug 'plasticboy/vim-markdown'                               " Markdown support
 Plug 'vimwiki/vimwiki'                                       " Vim Wiki
-Plug 'morhetz/gruvbox'                                       " Gruvbox Color Scheme
-Plug 'elm-tooling/elm-vim'                                   " Elm
-Plug 'ruanyl/vim-gh-line'                                    " Open Selection in GitHub
 Plug 'timtro/glslView-nvim'                                  " GLSL Viewer Support
-Plug 'kdheepak/lazygit.nvim'                                 " LazyGit support
 
 " ============== CoC EXTENSIONS ==============
 " * coc-prettier 9.3.1
@@ -77,7 +89,7 @@ set background=dark
 
 " ============== STATUS SECTIONS =================
 " Show the Tab Line When We Need It
-set showtabline=1
+" set showtabline=1
 
 " =============== VIEW SETTINGS ===============
 " THE BASICS
@@ -112,10 +124,6 @@ set autoindent
 " Sane tabstop
 set tabstop=2
 set shiftwidth=2
-" Indentation marker character
-let g:indentLine_char = '|'
-" Enable indent lines by default
-let g:indentLine_enabled = 1
 " Use spaces instead of tabs
 set expandtab
 
@@ -320,7 +328,7 @@ map <Leader>n :NERDTreeFind <CR>
 
 " TELESCOPE
 " File Browser
-map <Leader>f <cmd>Telescope file_browser<cr>
+" map <Leader>f <cmd>Telescope file_browser<cr>
 " Fuzzy-Find Files
 map <Leader>F <cmd>Telescope find_files<cr>
 " Search Staged Files
@@ -387,4 +395,9 @@ map <Leader>r :so ~/.vimrc<CR>
 " Heredoc DSL to shim Lua for Telescope extensions
 lua <<EOF
 require("telescope").load_extension "file_browser"
+require("indent_blankline").setup {
+    -- for example, context is off by default, use this to turn it on
+    show_current_context = true,
+    show_current_context_start = true,
+}
 EOF
