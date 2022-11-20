@@ -19,6 +19,7 @@ Plug 'nvim-tree/nvim-web-devicons'                           " Pretty Icons
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Incremental Language Parser
 Plug 'nvim-lua/plenary.nvim'                                 " Dependency for Telescope
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }     " Searching Modal
+Plug 'nvim-telescope/telescope-file-browser.nvim'            " Telescope File Browser
 Plug 'godlygeek/tabular'                                     " Required for Markdown support
 Plug 'plasticboy/vim-markdown'                               " Markdown support
 Plug 'tpope/vim-surround'                                    " Surround
@@ -318,6 +319,8 @@ map <Leader>f :NERDTreeToggle<CR><C-l>
 map <Leader>n :NERDTreeFind <CR>
 
 " TELESCOPE
+" File Browser
+map <Leader>f <cmd>Telescope file_browser<cr>
 " Fuzzy-Find Files
 map <Leader>F <cmd>Telescope find_files<cr>
 " Search Staged Files
@@ -379,3 +382,9 @@ map <Leader>i :IndentLinesToggle<CR>
 
 " Config
 map <Leader>r :so ~/.vimrc<CR>
+
+" CURSED
+" Heredoc DSL to shim Lua for Telescope extensions
+lua <<EOF
+require("telescope").load_extension "file_browser"
+EOF
