@@ -14,56 +14,53 @@ filetype off                      " Required
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'scrooloose/nerdtree'                                 " NERD Tree File Browser
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }        " FZF Fuzzy Finder Support
-Plug 'junegunn/fzf.vim'                                    " FZF Fuzzy Finder Support
-Plug 'antoinemadec/coc-fzf'                                " FZF Searching Coc Buffers
-Plug 'coreyja/fzf.devicon.vim'                             " DevIcons for FZF
-Plug 'godlygeek/tabular'                                   " Required for Markdown support
-Plug 'plasticboy/vim-markdown'                             " Markdown support
-Plug 'tpope/vim-surround'                                  " Surround
-Plug 'tpope/vim-repeat'                                    " Repeat with .
-Plug 'tpope/vim-fugitive'                                  " Git Integration
-Plug 'tpope/vim-rails'                                     " Rails Support
-Plug 'neoclide/coc.nvim' , {'branch': 'release'}           " Auto Complete
-Plug 'sheerun/vim-polyglot'                                " Language Support
-Plug 'posva/vim-vue'                                       " Vue Syntax Highlighting
-Plug 'leafOfTree/vim-svelte-plugin'                        " Svelte Syntax
-Plug 'JuliaEditorSupport/julia-vim'                        " Vim Julia Support
-Plug 'airblade/vim-gitgutter'                              " Git Diff
-Plug 'vim-latex/vim-latex'                                 " Vim LaTeX
-Plug 'Yggdroot/indentLine'                                 " Indentation Highlighting
-Plug 'lilydjwg/colorizer'                                  " Color Highlighting
-Plug 'Xuyuanp/nerdtree-git-plugin'                         " NerdTree Git Integration
-Plug 'vim-pandoc/vim-pandoc'                               " Vim PanDoc
-Plug 'vim-pandoc/vim-pandoc-syntax'                        " Vim PanDoc
-Plug 'tomtom/tcomment_vim'                                 " Commenting
-Plug 'vim-airline/vim-airline'                             " Nice Status Bar
-Plug 'zivyangll/git-blame.vim'                             " Git Blame
-Plug 'vimwiki/vimwiki'                                     " Vim Wiki
-Plug 'morhetz/gruvbox'                                     " Gruvbox Color Scheme
-Plug 'elm-tooling/elm-vim'                                 " Elm
-Plug 'ryanoasis/vim-devicons'                              " DevIcon support for Vim
+Plug 'scrooloose/nerdtree'                                   " NERD Tree File Browser
+Plug 'nvim-tree/nvim-web-devicons'                           " Pretty Icons
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Incremental Language Parser
+Plug 'nvim-lua/plenary.nvim'                                 " Dependency for Telescope
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }     " Searching Modal
+Plug 'godlygeek/tabular'                                     " Required for Markdown support
+Plug 'plasticboy/vim-markdown'                               " Markdown support
+Plug 'tpope/vim-surround'                                    " Surround
+Plug 'tpope/vim-repeat'                                      " Repeat with .
+Plug 'tpope/vim-fugitive'                                    " Git Integration
+Plug 'tpope/vim-rails'                                       " Rails Support
+Plug 'neoclide/coc.nvim' , {'branch': 'release'}             " Auto Complete
+Plug 'sheerun/vim-polyglot'                                  " Language Support
+Plug 'posva/vim-vue'                                         " Vue Syntax Highlighting
+Plug 'leafOfTree/vim-svelte-plugin'                          " Svelte Syntax
+Plug 'JuliaEditorSupport/julia-vim'                          " Vim Julia Support
+Plug 'airblade/vim-gitgutter'                                " Git Diff
+Plug 'vim-latex/vim-latex'                                   " Vim LaTeX
+Plug 'Yggdroot/indentLine'                                   " Indentation Highlighting
+Plug 'lilydjwg/colorizer'                                    " Color Highlighting
+Plug 'Xuyuanp/nerdtree-git-plugin'                           " NerdTree Git Integration
+Plug 'vim-pandoc/vim-pandoc'                                 " Vim PanDoc
+Plug 'vim-pandoc/vim-pandoc-syntax'                          " Vim PanDoc
+Plug 'tomtom/tcomment_vim'                                   " Commenting
+Plug 'vim-airline/vim-airline'                               " Nice Status Bar
+Plug 'zivyangll/git-blame.vim'                               " Git Blame
+Plug 'vimwiki/vimwiki'                                       " Vim Wiki
+Plug 'morhetz/gruvbox'                                       " Gruvbox Color Scheme
+Plug 'elm-tooling/elm-vim'                                   " Elm
+Plug 'ruanyl/vim-gh-line'                                    " Open Selection in GitHub
+Plug 'timtro/glslView-nvim'                                  " GLSL Viewer Support
+Plug 'kdheepak/lazygit.nvim'                                 " LazyGit support
 
 " ============== CoC EXTENSIONS ==============
-" I list these here mostly so they can be installed
-" via :CocInstall $EXTENSION. Installing them via
-" a plugin manager is wonky for updates
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh'
-    \ }
-" Plug 'neoclide/coc-tsserver'
-" Plug 'neoclide/coc-svelte'
-" Plug 'neoclide/coc-html'
-" Plug 'neoclide/coc-eslint'
-" Plug 'neoclide/coc-yaml'
-" Plug 'josa42/coc-sh'
-" Plug 'fannheyward/coc-pyright'
-" Plug 'fannheyward/coc-markdownlint'
-" Plug 'fannheyward/coc-julia'
-" Plug 'neoclide/coc-json'
-" Plug 'neoclide/coc-css'
+" * coc-prettier 9.3.1
+" * coc-html 1.7.0
+" * coc-eslint 1.5.8
+" + coc-yaml 1.9.0
+" + coc-tsserver 1.12.0
+" + coc-svelte 0.4.2
+" + coc-sh 0.7.0
+" + coc-pyright 1.1.275
+" + coc-markdownlint 1.26.0
+" + coc-julia 0.13.1
+" + coc-json 1.7.0
+" + coc-java 1.5.5
+" + coc-css 1.3.0
 
 call plug#end()
 
@@ -138,10 +135,15 @@ hi Normal guibg=NONE ctermbg=NONE
 
 " Use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -149,11 +151,6 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_snippet_next = '<tab>'
-
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " File auto-format on save
 autocmd FileType haskell autocmd call CocAction('format')
@@ -317,24 +314,26 @@ map <Leader>e :edit<CR>
 " NERD TREE
 " Go to NERD Tree
 map <Leader>f :NERDTreeToggle<CR><C-l>
+" Open current file in NerdTree
+map <Leader>n :NERDTreeFind <CR>
 
-" FZF
-" Run through ag first to ignore everything in .gitignore
-let $FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
-" Open FZF
-map <Leader>F :FilesWithDevicons<CR>
-
+" TELESCOPE
+" Fuzzy-Find Files
+map <Leader>F <cmd>Telescope find_files<cr>
 " Search Staged Files
-map <Leader>G :GFilesWithDevicons?<CR><C-l>
-
-" ACK
-map <Leader>a :AgWithDevicons<CR>
+map <Leader>G <cmd>Telescope git_status<cr>
+" Grep
+map <Leader>a <cmd>Telescope live_grep<cr>
+" Treesitter
+map <Leader>T <cmd>Telescope treesitter<cr>
 
 " GIT
 " Show/Hide GitGutter
 map <Leader>gg :GitGutterToggle<CR>
 " Show Hunk Changes
 map <Leader>gs <Plug>(GitGutterPreviewHunk)
+" Open Lazygit
+map <Leader>gl :LazyGit<CR>
 
 " COMPILING/RUNNING
 " Compile Pandoc
@@ -359,6 +358,8 @@ map <Leader>R :!./run<CR>
 map <Leader>o 0/\/<CR>velcstd::cout << "<esc>$a\n";<esc>:nohl<CR><C-l>
 " Turn cout into comment
 map <Leader>O 0/std<CR>v5ec// <esc>$v3hx:nohl<CR><C-l>
+" Open in GLSL Viewer
+map <Leader>s :GlslView<CR>
 
 " MARKDOWN
 " Code Blocks
