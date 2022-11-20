@@ -395,4 +395,4 @@ map <Leader>r :so ~/.vimrc<CR>
 " Until this vimrc is converted to Lua, config goes here
 :lua require("telescope").load_extension "file_browser"
 :lua require("indent_blankline").setup { show_current_context = true, show_current_context_start = true }
-:lua require('telescope').setup({ defaults = { layout_config = { vertical = { width = 0.2 }}}})
+:lua require('telescope').setup({ defaults = { layout_config = { vertical = { width = 0.5 }}}})
